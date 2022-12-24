@@ -20,6 +20,9 @@ server.use(express.json());
 const projectRoute = require("./api/routes/projectRoute");
 projectRoute(server);
 
+const taskRoute = require("./api/routes/taskRoute");
+taskRoute(server);
+
 const userRoute = require("./api/routes/userRoute");
 userRoute(server);
 
