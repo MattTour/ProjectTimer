@@ -16,6 +16,8 @@ mongoose.connect("mongodb://mongo/apinode");
 server.use(express.urlencoded());
 server.use(express.json());
 
+const groupRoute = require("./api/routes/groupRoute");
+groupRoute(server);
 
 const projectRoute = require("./api/routes/projectRoute");
 projectRoute(server);
