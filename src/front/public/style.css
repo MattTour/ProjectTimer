@@ -1,0 +1,17 @@
+.login-title {
+    font-size: 40px;
+    font-weight: bold;
+    color: blue;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.center {
+    text-align: center;
+}
+
+.mb30 {
+    margin-bottom: 30px;
+}

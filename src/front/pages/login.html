@@ -1,5 +1,28 @@
-<div>
-    <div>
-        Connectez-vous !
-    </div>
-</div>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!-- importer le fichier de style -->
+        <link rel="stylesheet" href="/src/front/public/style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="container">
+            <!-- zone de connexion -->
+
+            <form action="verification.php" method="POST">
+            <div class="login-title">Connexion</div>
+
+            <div>
+                <label>Nom d'utilisateur</label>
+                <input type="text" placeholder="Entrer le nom d'utilisateur" name="username" required>
+            </div>
+
+            <div>
+                <label>Mot de passe</label>
+                <input type="password" placeholder="Entrer le mot de passe" name="password" required>
+            </div>
+
+            <input type="submit" id='submit' value='LOGIN' >
+            </form>
+        </div>
+    </body>
+</html>
