@@ -70,7 +70,6 @@ exports.loginRegister = (req, res) => {
                         res.status(500);
                         console.log(error);
                         res.json({message: "Impossible de générer le token"});
-
                     }
                     else {
                         res.status(200);
@@ -83,7 +82,6 @@ exports.loginRegister = (req, res) => {
                 res.status(401);
                 console.log(error);
                 res.json({ message: "Email ou Mot de passe incorrect" });
-
             }
         }
     })
