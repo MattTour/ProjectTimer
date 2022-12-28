@@ -37,4 +37,12 @@ server.get('/login', function(req, res){
     res.render(__dirname + '/front/pages/login.html');
 });
 
+server.get('/register', function(req, res){
+    res.render(__dirname + '/front/pages/register.html');
+});
+
+server.get('/', function(req, res){
+    res.render(__dirname + '/front/pages/accueil.html');
+});
+
 server.listen(port, hostname);

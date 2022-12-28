@@ -1,0 +1,66 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!-- importer le fichier de style -->
+        <link rel="stylesheet" href="style.css" type="text/css" />
+    </head>
+    <body>
+        <div id="container">
+            <!-- zone de connexion -->
+
+            <form class="form-login" action="verification.php" method="POST">
+            <div class="login-title center mb30">Inscription</div>
+
+            <div class="mb30">
+                <div class="input-label">Nom d'utilisateur :</div>
+                <input class="input" type="text" placeholder="Entrer votre nom d'utilisateur" name="username" id="username" required>
+            </div>
+
+            <div class="mb30">
+                <div class="input-label">Mail :</div>
+                <input class="input" type="text" placeholder="Entrer votre adresse mail" name="mail" id="mail" required>
+            </div>
+
+            <div class="mb30">
+                <div class="input-label">Mot de passe :</div>
+                <input class="input" type="password" placeholder="Entrer le mot de passe" name="password" id="password" required>
+            </div>
+
+            <a href="#" class="button" onclick="register()" id='submit'>Se connecter</a>
+            </form>
+        </div>
+    </body>
+    <script>
+        async function register() {
+            username = document.getElementById("username").value;
+            mail = document.getElementById("mail").value;
+            password = document.getElementById("password").value;
+            myBody = {
+                "email": mail,
+                "password": password,
+                "pseudo": username
+            };
+            var formBody = [];
+            for (var property in myBody) {
+                var encodedKey = encodeURIComponent(property);
+                var encodedValue = encodeURIComponent(myBody[property]);
+                formBody.push(encodedKey + "=" + encodedValue);
+            }
+            formBody = formBody.join("&");
+            const response = await fetch('http://localhost:3000/user/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                },
+                body: formBody
+            });
+            const myJson = await response.json();
+            if (response.status == 201) {
+                window.location.href = "/login";
+            }
+            else {
+                console.log(myJson);
+            }
+        }
+    </script>
+</html>
