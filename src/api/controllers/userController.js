@@ -46,6 +46,7 @@ exports.userRegister = async (req, res) => {
         // })
 }
 
+
 exports.loginRegister = (req, res) => {
     // Find user
     User.findOne({ email: req.body.email }, (error, user) => {
@@ -73,7 +74,9 @@ exports.loginRegister = (req, res) => {
                     }
                     else {
                         res.status(200);
-                        res.json({token});
+                        console.log([JSON.stringify(token), JSON.stringify(userData.id)]);
+                             
+                        res.send([JSON.stringify(token), JSON.stringify(userData.id)]);
                     }
                 })
             }

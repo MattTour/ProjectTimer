@@ -46,7 +46,8 @@
             });
             const myJson = await response.json();
             if (response.status == 200) {
-                localStorage.setItem('token', myJson);
+                localStorage.setItem('token', myJson[0]);
+                localStorage.setItem('userId', myJson[1]);
                 window.location.href = "/";
             }
             else {
