@@ -45,4 +45,12 @@ server.get('/', function(req, res){
     res.render(__dirname + '/front/pages/accueil.html');
 });
 
+server.get('/createGroup', function(req, res){
+    res.render(__dirname + '/front/pages/groupCreate.html');
+});
+
+server.get('/groupModify/:idGroupe', function(req, res){
+    res.render(__dirname + '/front/pages/groupUpdate.html');
+});
+
 server.listen(port, hostname);
