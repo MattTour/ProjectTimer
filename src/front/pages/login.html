@@ -1,13 +1,10 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <!-- importer le fichier de style -->
         <link rel="stylesheet" href="style.css" type="text/css" />
     </head>
     <body>
         <div id="container">
-            <!-- zone de connexion -->
-
             <form class="form-login" action="verification.php" method="POST">
             <div class="login-title center mb30">Connexion</div>
 
@@ -48,7 +45,9 @@
                 body: formBody
             });
             const myJson = await response.json();
-            if (response.status == 201) {
+            if (response.status == 200) {
+                localStorage.setItem('token', myJson[0]);
+                localStorage.setItem('userId', myJson[1]);
                 window.location.href = "/";
             }
             else {
