@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="style.css" type="text/css" />
+        <script type="module" src="/function/checkLogin.js"></script>  
+    </head>
+    <body>
+        <div id="container">
+            <ul class="table" id="listGroup">
+                <li class="inline-flex table-row bold center">
+                    <div class="flex-child">Nom du Projet</div>
+                    <div class="flex-child">Id de l'admin</div>
+                    <!-- Deux div vide pour aligner les libellés aux colonnes du tableau -->
+                    <div class='flex-icon'></div>
+                    <div class='flex-icon'></div>
+                </li><br/>
+            </ul>
+        </div>
+    </body>
+    <script>
+        let list = document.getElementById('listGroup');
+        window.onload = fetch("http://localhost:3000/group")
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            let groups = data;
+
+            groups.map(function(aGroup) {
+                console.log(aGroup);
+                list.innerHTML += "<li class='inline-flex table-row center'><div class='flex-child'>" + aGroup.groupName + "</div><div class='flex-child'>" + aGroup.idUserAdmin + "</div><div class='flex-icon'><img src='/img/write.svg' onclick='editGroup(" + '"' + aGroup._id + '"' + ")'/></div><div class='flex-icon'><img src='/img/trash.svg' onclick='deleteGroup(" + '"' + aGroup._id + '"' + ")'/></div></li><br/>";
+            });
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
+    </script>
+</html>
