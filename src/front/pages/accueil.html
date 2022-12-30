@@ -6,6 +6,9 @@
     </head>
     <body>
         <div id="container">
+            <div class="addButton">
+                <a href="/createGroup" class="button">Ajouter un groupe</a>
+            </div>
             <ul class="table" id="listGroup">
                 <li class="inline-flex table-row bold center">
                     <div class="flex-child">Nom du groupe</div>
@@ -28,11 +31,27 @@
 
             groups.map(function(aGroup) {
                 console.log(aGroup);
-                list.innerHTML += "<li class='inline-flex table-row center'><div class='flex-child'>" + aGroup.groupName + "</div><div class='flex-child'>" + aGroup.idUserAdmin + "</div><div class='flex-icon'><img src='/img/write.svg' onclick='editGroup(" + '"' + aGroup._id + '"' + ")'/></div><div class='flex-icon'><img src='/img/trash.svg' onclick='deleteGroup(" + '"' + aGroup._id + '"' + ")'/></div></li><br/>";
+                list.innerHTML += "<li class='inline-flex table-row center'><div class='flex-child'>" + aGroup.groupName + "</div><div class='flex-child'>" + aGroup.idUserAdmin + "</div><div class='flex-icon'><a href='/groupModify/" + aGroup._id + "'><img src='/img/write.svg'/></a></div><div class='flex-icon'><img src='/img/trash.svg' onclick='deleteGroup(" + '"' + aGroup._id + '"' + ")'/></div></li><br/>";
             });
         })
         .catch(function(error) {
             console.log(error);
         });
+
+        async function deleteGroup(idGroup) {
+            const response = await fetch('http://localhost:3000/group/' + idGroup, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                }
+            });
+            const myJson = await response.json();
+            if (response.status == 200) {
+                window.location.href = "/";
+            }
+            else {
+                console.log(myJson);
+            }
+        }
     </script>
 </html>
