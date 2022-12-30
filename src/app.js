@@ -53,4 +53,16 @@ server.get('/groupModify/:idGroupe', function(req, res){
     res.render(__dirname + '/front/pages/groupUpdate.html');
 });
 
+server.get('/projects', function(req, res){
+    res.render(__dirname + '/front/pages/projectList.html');
+});
+
+server.get('/createProject', function(req, res){
+    res.render(__dirname + '/front/pages/projectCreate.html');
+});
+
+server.get('/projectModify/:idProject', function(req, res){
+    res.render(__dirname + '/front/pages/projectUpdate.html');
+});
+
 server.listen(port, hostname);
