@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 let projectSchema = new Schema({
     group_id: {
-        type: Number,
+        type: String,
         required: true
     }, 
     projectName: {
