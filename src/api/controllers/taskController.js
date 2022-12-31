@@ -47,7 +47,14 @@ exports.createATask = (req, res) => {
 //http://localhost:3000/task/63a37531f3f3cc589ef908e0
 //Attention, pas de clé "id" ici
 exports.updateATask = (req, res) => {
-    Task.findByIdAndUpdate(req.params.id, req.body, {
+    if (
+        req.body.taskName === "" || typeof req.body.taskName === "undefined"
+    ) {
+        let error = 'Le champ taskName n\'est pas renseignée !';
+        console.log(error);
+        return res.status(500).json(error);
+    }
+    Task.findByIdAndUpdate(req.params.idTask, req.body, { 
         taskName: req.body.taskName,
         description: req.body.description }, (error, task) => {
         if (error) {
@@ -57,15 +64,17 @@ exports.updateATask = (req, res) => {
         }
         else {
             res.status(200);
-            res.json({ message: "La tâche à bien été modifié." });
+            res.json({ message: "Le project à bien été modifié."});
         }
+
     })
 }
+
 
 //http://localhost:3000/task/63a37531f3f3cc589ef908e0
 ////Attention, pas de clé "id" ici
 exports.deleteATask = (req, res) => {
-    Task.findByIdAndRemove(req.params.id, (error) => {
+    Task.findByIdAndRemove(req.params.idTask, (error) => {
         if (error) {
             res.status(401);
             console.log(error);
@@ -75,5 +84,6 @@ exports.deleteATask = (req, res) => {
             res.status(200);
             res.json({message: "Tâche supprimé"});
         }
+
     })
 }
