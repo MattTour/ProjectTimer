@@ -6,7 +6,8 @@ server.route("/group")
 .get(groupController.listAllGroups);
 
 server.route("/group/:idUserAdmin")
-.post(groupController.createAGroup);
+.post(groupController.createAGroup)
+.get(groupController.listGroupsByUser);
 
 server.route("/group/:idGroup")
 .get(groupController.getOneGroup)
