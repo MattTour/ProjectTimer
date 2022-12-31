@@ -1,9 +1,8 @@
 const Task = require('../models/taskModel');
 
 
-//BESOIN D'AVOIR UNE CLÉ ID DANS LE REQ.PARAMS
-//ex: http://localhost:3000/task/?idProject=1
-exports.listAllTasks = (req, res) => {
+//ex: http://localhost:3000/tasks/63b048f6fc1cbb1aba68607e
+exports.findTasksByProjectId = (req, res) => {
     Task.find({ idProject: req.params.idProject }, (error, tasks) => {
         if (error) {
             res.status(500);
@@ -11,43 +10,22 @@ exports.listAllTasks = (req, res) => {
             res.json({ message: "Erreur serveur." });
         } else {
             res.status(200);
-            res.json({
-                "idProject": tasks.idProject,
-                "taskName": tasks.taskName,
-                "description": tasks.description
-            });
+            res.json(tasks);
         }
     })
-}
-exports.testTask = (req, res) => {
-    Task.find({}, (error, tasks) => {
-        if (error) {
-            res.status(500);
-            console.log(error);
-            res.json({ message: "Erreur serveur." });
-        } else {
-            res.status(200);
-            res.json(tasks)
-        }
-    });
 }
 
 //BESOIN D'AVOIR UNE CLÉ ID DANS LE REQ.PARAMS
 //ex: http://localhost:3000/task/?id=63a37531f3f3cc589ef908e0
 exports.getATask = (req, res) => {
-    Task.findById({ _id: req.params.idTask }), (error, task) => {
+    Task.findById(req.params.idTask), (error, task) => {
         if (error) {
             res.status(500);
             console.log(error);
             res.json({ message: "Erreur serveur." });
         } else {
             res.status(200);
-            res.json({
-                task
-                // "idProject": task.idProject,
-                // "taskName": task.taskName,
-                // "description": task.description
-            })
+            res.json(task)
         }
     }
 }
@@ -61,12 +39,7 @@ exports.createATask = (req, res) => {
             res.json({ message: "Requete invalide." });
         } else {
             res.status(201);
-            res.json({
-                task
-                // "idProject": task.idProject,
-                // "taskName": task.taskName,
-                // "description": task.description
-            })
+            res.json(task)
         }
     })
 }

@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 let taskModel = new Schema ({
     idProject: {
-        type: Number,
+        type: String,
         required: true
     },
     taskName: {
