@@ -1,8 +1,9 @@
 const Group = require("../models/groupModel");
+const User = require("../models/userModel");
 
 exports.listAllGroups = (req, res) => {
     Group.find({}, (error, groups) => {
-        if(error) {
+        if (error) {
             res.status(500);
             console.log(error);
             res.json({ message: "Erreur serveur." });
@@ -13,7 +14,41 @@ exports.listAllGroups = (req, res) => {
     })
 }
 
+exports.listGroupsByUser = (req, res) => {
+    User.findById(req.params.idUserAdmin).populate("groups").exec(function (error, user) {
+        if(error){
+            res.status(500);
+            console.log(error);
+            res.json({message: "Erreur serveur"});
+        }
+        else{
+            console.log(user);
+            res.status(200);
+            res.json(user);
+        }
+    })
+}
+
+// Group.find({}).populate("users").populate("admin").populate("projects").exec(function (error, groups){
+//     if(error){
+//         res.status(500);
+//         console.log(error);
+//         res.json({message: "Erreur serveur"});
+//     }
+//     else{
+//         res.status(200);
+//         res.json(groups);
+//     }
+// });
+
+
+
+
+
+
+
 exports.createAGroup = (req, res) => {
+    // Creation du nouveau group
     let newGroup = new Group({
         idUserAdmin: req.params.idUserAdmin,
         groupName: req.body.groupName
@@ -24,14 +59,24 @@ exports.createAGroup = (req, res) => {
             console.log(error);
             res.json({ message: "Reqûete invalide." });
         } else {
-            res.status(201);
-            res.json({
-                "idUserAdmin": group.idUserAdmin,
-                "groupName": group.groupName
+            // console.log(req.params.idUserAdmin);
+            // Recherche admin user
+            User.findById(req.params.idUserAdmin, (error, user) => {
+                console.log(user);
+                let groupsExist = user.groups
+                groupsExist.push(group._id);
+                console.log(groupsExist);
+
+                User.findByIdAndUpdate(req.params.idUserAdmin, { groups: groupsExist })
+                    .then(result => console.log(result))
+                    .catch((error) => console.log('error : ', error))
+
             })
+
         }
     })
 }
+
 
 //http://localhost:3000/groups/63a8708996db296923360c01
 exports.getOneGroup = (req, res) => {
@@ -51,14 +96,15 @@ exports.getOneGroup = (req, res) => {
 
 //http://localhost:3000/groups/63a8708996db296923360c01
 exports.updateGroup = (req, res) => {
-    Group.find({_id: req.params.idGroup}, (error, group) => {
-        if(error) {
+    Group.find({ _id: req.params.idGroup }, (error, group) => {
+        if (error) {
             res.status(500);
             console.log(error);
             res.json({ message: "Erreur, groupe inconnu." });
         } else {
-            Group.findByIdAndUpdate(req.params.idGroup, req.body, { 
-                groupName: req.body.groupName}, (error, group) => {
+            Group.findByIdAndUpdate(req.params.idGroup, req.body, {
+                groupName: req.body.groupName
+            }, (error, group) => {
                 if (error) {
                     res.status(401);
                     console.log(error);
@@ -66,17 +112,17 @@ exports.updateGroup = (req, res) => {
                 }
                 else {
                     res.status(200);
-                    res.json({ message: "Le groupe à bien été modifié."});
+                    res.json({ message: "Le groupe à bien été modifié." });
                 }
             })
         }
-    })    
+    })
 }
 
 //http://localhost:3000/groups/63a8708996db296923360c01
 exports.removeGroup = (req, res) => {
-    Group.find({_id: req.params.idGroup}, (error, group) => {
-        if(error) {
+    Group.find({ _id: req.params.idGroup }, (error, group) => {
+        if (error) {
             res.status(500);
             console.log(error);
             res.json({ message: "Erreur, groupe inconnu." });
@@ -89,9 +135,9 @@ exports.removeGroup = (req, res) => {
                 }
                 else {
                     res.status(200);
-                    res.json({message: "Groupe supprimé"});
+                    res.json({ message: "Groupe supprimé" });
                 }
             })
         }
-    })    
+    })
 }
