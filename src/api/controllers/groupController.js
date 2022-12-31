@@ -29,24 +29,6 @@ exports.listGroupsByUser = (req, res) => {
     })
 }
 
-// Group.find({}).populate("users").populate("admin").populate("projects").exec(function (error, groups){
-//     if(error){
-//         res.status(500);
-//         console.log(error);
-//         res.json({message: "Erreur serveur"});
-//     }
-//     else{
-//         res.status(200);
-//         res.json(groups);
-//     }
-// });
-
-
-
-
-
-
-
 exports.createAGroup = (req, res) => {
     // Creation du nouveau group
     let newGroup = new Group({
