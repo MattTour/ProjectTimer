@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="style.css" type="text/css" />
+        <script type="module" src="/function/checkLogin.js"></script>  
+    </head>
+    <body>
+        <div id="container">
+            <div class="login-title center mb30">Créer une tache</div>
+            <div class="form-login">
+                <div class="mb30">
+                    <div class="input-label">Nom de la tache  :</div>
+                    <input class="input" type="text" placeholder="Entrer le nom de la tache" name="taskName" id="taskName" required>
+                </div>
+
+                <div class="mb30">
+                    <div class="input-label">Description de la tache :</div>
+                    <textarea class="input" type="text" placeholder="Entrer la description de la tache" name="taskDescription" id="taskDescription" required></textarea>
+                </div>
+
+                <div class="mb30">
+                    <div class="input-label">Id du projet  :</div>
+                    <input class="input" type="text" placeholder="Entrer l'id du projet lié à cette tache" name="projectIdTask" id="projectIdTask" required>
+                </div>
+
+                <button class="button" onclick="createTask()">Valider</button>
+            </div>
+        </div>
+    </body>
