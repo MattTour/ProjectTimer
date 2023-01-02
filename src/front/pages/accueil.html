@@ -9,6 +9,9 @@
             <div class="title center">Vos groupes</div>
             <ul class="table" id="listGroup">
                 <div class="addButton">
+                    <a href="#" class="button" onclick="deconnect()">Deconnexion</a>
+                </div>
+                <div class="addButton">
                     <a href="/createGroup" class="button">Ajouter un groupe</a>
                 </div>
                 <li class="inline-flex table-row bold center">
@@ -55,6 +58,12 @@
             else {
                 console.log(myJson);
             }
+        }
+
+        function deconnect() {
+            localStorage.removeItem("token");
+            localStorage.removeItem("userId");
+            document.location.reload();
         }
     </script>
 </html>
