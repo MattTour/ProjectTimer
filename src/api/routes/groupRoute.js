@@ -6,11 +6,18 @@ server.route("/group")
 .get(groupController.listAllGroups);
 
 server.route("/group/:idUserAdmin")
-.post(groupController.createAGroup)
+.post(groupController.createAGroup);
+
+server.route("/group/:userId")
 .get(groupController.listGroupsByUser);
 
+server.route("/addUser")
+.post(groupController.addUserIntoGroup);
+
+server.route("/removeUser")
+.delete(groupController.removeUserOfGroup);
+
 server.route("/group/:idGroup")
-.get(groupController.getOneGroup)
 .put(groupController.updateGroup)
 .delete(groupController.removeGroup);
 
