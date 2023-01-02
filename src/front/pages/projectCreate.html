@@ -1,7 +1,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="style.css" type="text/css" />
+        <link rel="stylesheet" href="/style.css" type="text/css" />
         <script type="module" src="/function/checkLogin.js"></script>  
     </head>
     <body>
@@ -28,6 +28,7 @@
         </div>
     </body>
     <script>
+        const idGroup = window.location.pathname.split("/").pop();
         async function createProject() {
             projectName = document.getElementById("projectName").value;
             projectDescription = document.getElementById("projectDescription").value;
@@ -53,7 +54,7 @@
             });
             const myJson = await response.json();
             if (response.status == 201) {
-                window.location.href = "/projects";
+                window.location.href = "/projectList/" + idGroup;
             }
             else {
                 console.log(myJson);

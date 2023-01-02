@@ -1,19 +1,23 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="style.css" type="text/css" />
+        <link rel="stylesheet" href="/style.css" type="text/css" />
         <script type="module" src="/function/checkLogin.js"></script>  
     </head>
     <body>
         <div id="container">
-            <div class="addButton">
-                <a href="/createProject" class="button">Ajouter un projet</a>
-            </div>
+            <div class="title center" id="title">Projets du groupe </div>
             <ul class="table" id="listGroup">
+                <div class="addButton">
+                    <a href="/" class="button">Retour aux groupes</a>
+                </div>
+                <div class="addButton">
+                    <a href="/createProject" class="button" id="createProject">Ajouter un projet</a>
+                </div>
                 <li class="inline-flex table-row bold center">
                     <div class="flex-child">Nom du projet</div>
-                    <div class="flex-child">Id du groupe</div>
-                    <!-- Deux div vide pour aligner les libellés aux colonnes du tableau -->
+                    <!-- div vides pour aligner les libellés aux colonnes du tableau -->
+                    <div class="flex-link"></div>
                     <div class='flex-icon'></div>
                     <div class='flex-icon'></div>
                 </li><br/>
@@ -21,8 +25,15 @@
         </div>
     </body>
     <script>
+        const createProject = document.getElementById('createProject');
+        const idGroup = window.location.pathname.split("/").pop();
+        createProject.href += "/" + idGroup;
+
+        const title = document.getElementById('title');
+        title.innerHTML += idGroup;
+
         let list = document.getElementById('listGroup');
-        window.onload = fetch("http://localhost:3000/project")
+        window.onload = fetch("http://localhost:3000/projects/" + idGroup)
         .then((response) => {
             return response.json();
         })
@@ -31,7 +42,7 @@
 
             projects.map(function(aProject) {
                 console.log(aProject);
-                list.innerHTML += "<li class='inline-flex table-row center'><div class='flex-child'>" + aProject.projectName + "</div><div class='flex-child'>" + aProject.group_id + "</div><div class='flex-icon'><a href='/projectModify/" + aProject._id + "'><img src='/img/write.svg'/></a></div><div class='flex-icon'><img src='/img/trash.svg' onclick='deleteGroup(" + '"' + aProject._id + '"' + ")'/></div></li><br/>";
+                list.innerHTML += "<li class='inline-flex table-row center'><div class='flex-child'>" + aProject.projectName + "</div><div class='flex-link'><a href='/taskList/" + aProject._id + "'>Voir tâches</a></div><div class='flex-icon'><a href='/projectModify/" + aProject._id + "'><img src='/img/write.svg'/></a></div><div class='flex-icon'><img src='/img/trash.svg' onclick='deleteGroup(" + '"' + aProject._id + '"' + ")'/></div></li><br/>";
             });
         })
         .catch(function(error) {
@@ -47,7 +58,7 @@
             });
             const myJson = await response.json();
             if (response.status == 200) {
-                window.location.href = "/projects";
+                window.location.href = "/projectList/" + idGroup;
             }
             else {
                 console.log(myJson);

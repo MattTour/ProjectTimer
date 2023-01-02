@@ -23,7 +23,7 @@ exports.listGroupsByUser = (req, res) => {
         }
         else {
             res.status(200);
-            res.json(user);
+            res.json(user.groups);
         }
     })
 }
