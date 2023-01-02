@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="/style.css" type="text/css" />
+        <script type="module" src="/function/checkLogin.js"></script>  
+    </head>
+    <body>
+        <div id="container">
+            <div class="login-title center mb30">Modifier le groupe</div>
+            <div class="form-login">
+                <div class="mb30">
+                    <div class="input-label">Nom du groupe :</div>
+                    <input class="input" type="text" placeholder="Entrer le nom du groupe" name="groupName" id="groupName" required>
+                </div>
+
+                <button class="button" onclick="updateGroup()">Valider</button>
+            </div>
+        </div>
+    </body>
+    <script>
+        const idGroup = window.location.pathname.split("/").pop();
+        console.log(idGroup);
+        async function updateGroup() {
+            groupName = document.getElementById("groupName").value;
+                myBody = {
+                "groupName": groupName
+            };
+            var formBody = [];
+            for (var property in myBody) {
+                var encodedKey = encodeURIComponent(property);
+                var encodedValue = encodeURIComponent(myBody[property]);
+                formBody.push(encodedKey + "=" + encodedValue);
+            }
+            formBody = formBody.join("&");
+            const response = await fetch('http://localhost:3000/group/' + idGroup, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                },
+                body: formBody
+            });
+            const myJson = await response.json();
+            if (response.status == 200) {
+                window.location.href = "/";
+            }
+            else {
+                console.log(myJson);
+            }
+        }
+    </script>
+</html>

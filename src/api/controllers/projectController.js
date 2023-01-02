@@ -35,6 +35,19 @@ exports.createAProject = (req, res) => {
 
 }
 
+exports.findProjecstByGroupId = (req, res) => {
+    Project.find({group_id: req.params.group_id}, (error, projects) => {
+        if (error) {
+            res.status(401);
+            console.log(error);
+            res.json({ message: "Reqûete invalide." });
+        } else {
+            res.status(200);
+            res.json(projects)
+        }
+    })
+}
+
 exports.getAProject = (req, res) => {
     Project.findById(req.params.project_id, (error, project) => {
         if (error) {
@@ -68,7 +81,7 @@ exports.updateAProject = (req, res) => {
         }
         else {
             res.status(200);
-            res.json({ message: "Le project à bien été modifié."});
+            res.json({ message: "Le project à bien été modifié.", idGroup: project.group_id});
         }
 
     })

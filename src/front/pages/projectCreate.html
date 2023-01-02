@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="/style.css" type="text/css" />
+        <script type="module" src="/function/checkLogin.js"></script>  
+    </head>
+    <body>
+        <div id="container">
+            <div class="login-title center mb30">Créer un projet</div>
+            <div class="form-login">
+                <div class="mb30">
+                    <div class="input-label">Nom du projet :</div>
+                    <input class="input" type="text" placeholder="Entrer le nom du projet" name="projectName" id="projectName" required>
+                </div>
+
+                <div class="mb30">
+                    <div class="input-label">Description du projet :</div>
+                    <textarea class="input" type="text" placeholder="Entrer la description du projet" name="projectDescription" id="projectDescription" required></textarea>
+                </div>
+
+                <div class="mb30">
+                    <div class="input-label">Id du groupe :</div>
+                    <input class="input" type="text" placeholder="Entrer l'id du groupe lié à ce projet" name="projectIdGroupe" id="projectIdGroupe" required>
+                </div>
+
+                <button class="button" onclick="createProject()">Valider</button>
+            </div>
+        </div>
+    </body>
+    <script>
+        const idGroup = window.location.pathname.split("/").pop();
+        async function createProject() {
+            projectName = document.getElementById("projectName").value;
+            projectDescription = document.getElementById("projectDescription").value;
+            projectIdGroupe = document.getElementById("projectIdGroupe").value;
+            myBody = {
+                "projectName": projectName,
+                "description": projectDescription,
+                "group_id": projectIdGroupe
+            };
+            var formBody = [];
+            for (var property in myBody) {
+                var encodedKey = encodeURIComponent(property);
+                var encodedValue = encodeURIComponent(myBody[property]);
+                formBody.push(encodedKey + "=" + encodedValue);
+            }
+            formBody = formBody.join("&");
+            const response = await fetch('http://localhost:3000/project', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                },
+                body: formBody
+            });
+            const myJson = await response.json();
+            if (response.status == 201) {
+                window.location.href = "/projectList/" + idGroup;
+            }
+            else {
+                console.log(myJson);
+            }
+        }
+    </script>
+</html>

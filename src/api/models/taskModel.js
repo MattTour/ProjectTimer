@@ -1,19 +1,19 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-let projectSchema = new Schema({
-    group_id: {
-        type: String,
-        required: true
-    }, 
-    projectName: {
+let taskModel = new Schema ({
+    idProject: {
         type: String,
         required: true
     },
+    taskName: {
+        type: String, 
+        required: true
+    },
     description: {
-        type: String,
+        type: String, 
         required: false
     }
-});
+})
 
-module.exports = mongoose.model('Project', projectSchema);
+module.exports = mongoose.model('Task', taskModel);

@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="/style.css" type="text/css" />
+        <script type="module" src="/function/checkLogin.js"></script>  
+    </head>
+    <body>
+        <div id="container">
+            <div class="login-title center mb30">Modifier le projet</div>
+            <div class="form-login">
+                <div class="mb30">
+                    <div class="input-label">Nom du projet :</div>
+                    <input class="input" type="text" placeholder="Entrer le nom du projet" name="projectName" id="projectName" required>
+                </div>
+
+                <div class="mb30">
+                    <div class="input-label">Description du projet :</div>
+                    <input class="input" type="text" placeholder="Entrer la description du projet" name="projectDescription" id="projectDescription" required>
+                </div>
+
+                <button class="button" onclick="updateProject()">Valider</button>
+            </div>
+        </div>
+    </body>
+    <script>
+        const idProject = window.location.pathname.split("/").pop();
+        async function updateProject() {
+            projectName = document.getElementById("projectName").value;
+            projectDescription = document.getElementById("projectDescription").value;
+            myBody = {
+                "projectName": projectName,
+                "description": projectDescription
+            };
+            var formBody = [];
+            for (var property in myBody) {
+                var encodedKey = encodeURIComponent(property);
+                var encodedValue = encodeURIComponent(myBody[property]);
+                formBody.push(encodedKey + "=" + encodedValue);
+            }
+            formBody = formBody.join("&");
+            const response = await fetch('http://localhost:3000/project/' + idProject, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                },
+                body: formBody
+            });
+            const myJson = await response.json();
+            if (response.status == 200) {
+                window.location.href = "/projectList/" + myJson.idGroup;
+            }
+            else {
+                console.log(myJson.message);
+            }
+        }
+    </script>
+</html>

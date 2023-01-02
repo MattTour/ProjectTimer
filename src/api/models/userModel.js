@@ -14,7 +14,11 @@ let userSchema = new Schema({
     pseudo: {
         type: String,
         required: true
-    }
+    }, 
+    groups: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Group'
+    }]
 });
 
 module.exports = mongoose.model('User', userSchema);

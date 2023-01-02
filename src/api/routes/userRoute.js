@@ -3,4 +3,7 @@ const userController = require("../controllers/userController");
 
 server.post("/user/register", userController.userRegister);
 server.post("/user/login", userController.loginRegister);
+
+server.route("/user")
+.get(userController.findUserByEmail);
 }

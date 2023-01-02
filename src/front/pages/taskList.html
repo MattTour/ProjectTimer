@@ -1,0 +1,68 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="/style.css" type="text/css" />
+        <script type="module" src="/function/checkLogin.js"></script>  
+    </head>
+    <body>
+        <div id="container">
+            <div class="title center" id="title">Tâches du projet </div>
+            <ul class="table" id="listGroup">
+                <div class="addButton">
+                    <a href="/" class="button">Retour aux groupes</a>
+                </div>
+                <div class="addButton">
+                    <a href="/createTask" class="button" id="createTask">Ajouter une tâche</a>
+                </div>
+                <li class="inline-flex table-row bold center">
+                    <div class="flex-child">Nom de la tâche</div>
+                    <div class="flex-child">Description</div>
+                    <!-- div vides pour aligner les libellés aux colonnes du tableau -->
+                    <div class='flex-icon'></div>
+                    <div class='flex-icon'></div>
+                </li><br/>
+            </ul>
+        </div>
+    </body>
+    <script>
+        const createTask = document.getElementById('createTask');
+        const idGroup = window.location.pathname.split("/").pop();
+        createTask.href += "/" + idGroup;
+
+        const title = document.getElementById('title');
+        title.innerHTML += idGroup;
+
+        let list = document.getElementById('listGroup');
+        window.onload = fetch("http://localhost:3000/tasks/" + idGroup)
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            let tasks = data;
+
+            tasks.map(function(aTask) {
+                console.log(aTask);
+                list.innerHTML += "<li class='inline-flex table-row center'><div class='flex-child'>" + aTask.taskName + "</div><div class='flex-child'>" + aTask.description + "</div><div class='flex-icon'><a href='/taskModify/" + aTask._id + "'><img src='/img/write.svg'/></a></div><div class='flex-icon'><img src='/img/trash.svg' onclick='deleteGroup(" + '"' + aTask._id + '"' + ")'/></div></li><br/>";
+            });
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
+
+        async function deleteGroup(idTask) {
+            const response = await fetch('http://localhost:3000/task/' + idTask, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                }
+            });
+            const myJson = await response.json();
+            if (response.status == 200) {
+                window.location.href = "/taskList/" + idGroup;
+            }
+            else {
+                console.log(myJson);
+            }
+        }
+    </script>
+</html>

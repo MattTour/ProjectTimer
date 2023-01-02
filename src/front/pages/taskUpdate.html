@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="/style.css" type="text/css" />
+        <script type="module" src="/function/checkLogin.js"></script>  
+    </head>
+    <body>
+        <div id="container">
+            <div class="login-title center mb30">Modifier la tâche</div>
+            <div class="form-login">
+                <div class="mb30">
+                    <div class="input-label">Nom de la tâche :</div>
+                    <input class="input" type="text" placeholder="Entrer le nom de la tâche" name="taskName" id="taskName" required>
+                </div>
+
+                <div class="mb30">
+                    <div class="input-label">Description de la tâche :</div>
+                    <input class="input" type="text" placeholder="Entrer la description de la tâche" name="taskDescription" id="taskDescription" required>
+                </div>
+
+                <button class="button" onclick="updateTask()">Valider</button>
+            </div>
+        </div>
+    </body>
+    <script>
+        const idTask = window.location.pathname.split("/").pop();
+        async function updateTask() {
+            taskName = document.getElementById("taskName").value;
+            taskDescription = document.getElementById("taskDescription").value;
+            myBody = {
+                "taskName": taskName,
+                "description": taskDescription
+            };
+            var formBody = [];
+            for (var property in myBody) {
+                var encodedKey = encodeURIComponent(property);
+                var encodedValue = encodeURIComponent(myBody[property]);
+                formBody.push(encodedKey + "=" + encodedValue);
+            }
+            formBody = formBody.join("&");
+            const response = await fetch('http://localhost:3000/task/' + idTask, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                },
+                body: formBody
+            });
+            const myJson = await response.json();
+            if (response.status == 200) {
+                window.location.href = "/taskList/" + myJson.idProject;
+            }
+            else {
+                console.log(myJson.message);
+            }
+        }
+    </script>
+</html>
