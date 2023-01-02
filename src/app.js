@@ -53,16 +53,28 @@ server.get('/groupModify/:idGroupe', function(req, res){
     res.render(__dirname + '/front/pages/groupUpdate.html');
 });
 
-server.get('/projects', function(req, res){
+server.get('/projectList/:idGroupe', function(req, res){
     res.render(__dirname + '/front/pages/projectList.html');
 });
 
-server.get('/createProject', function(req, res){
+server.get('/createProject/:idGroupe', function(req, res){
     res.render(__dirname + '/front/pages/projectCreate.html');
 });
 
 server.get('/projectModify/:idProject', function(req, res){
     res.render(__dirname + '/front/pages/projectUpdate.html');
+});
+
+server.get('/taskList/:idProject', function(req, res){
+    res.render(__dirname + '/front/pages/taskList.html');
+});
+
+server.get('/createTask/:idProject', function(req, res){
+    res.render(__dirname + '/front/pages/taskCreate.html');
+});
+
+server.get('/taskModify/:idTask', function(req, res){
+    res.render(__dirname + '/front/pages/taskUpdate.html');
 });
 
 server.listen(port, hostname);

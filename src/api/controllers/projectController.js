@@ -81,7 +81,7 @@ exports.updateAProject = (req, res) => {
         }
         else {
             res.status(200);
-            res.json({ message: "Le project à bien été modifié."});
+            res.json({ message: "Le project à bien été modifié.", idGroup: project.group_id});
         }
 
     })

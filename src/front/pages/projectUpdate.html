@@ -24,7 +24,6 @@
     </body>
     <script>
         const idProject = window.location.pathname.split("/").pop();
-        console.log(idProject);
         async function updateProject() {
             projectName = document.getElementById("projectName").value;
             projectDescription = document.getElementById("projectDescription").value;
@@ -48,10 +47,10 @@
             });
             const myJson = await response.json();
             if (response.status == 200) {
-                window.location.href = "/projects";
+                window.location.href = "/projectList/" + myJson.idGroup;
             }
             else {
-                console.log(myJson);
+                console.log(myJson.message);
             }
         }
     </script>

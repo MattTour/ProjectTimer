@@ -39,7 +39,7 @@
                 body: formBody
             });
             const myJson = await response.json();
-            if (response.status == 201) {
+            if (response.status == 200) {
                 window.location.href = "/";
             }
             else {
