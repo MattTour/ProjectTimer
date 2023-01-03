@@ -17,7 +17,10 @@
                 <li class="inline-flex table-row bold center">
                     <div class="flex-child">Nom de la tâche</div>
                     <div class="flex-child">Description</div>
+                    <div class="flex-child">Durée</div>
+                    <div class="flex-child">Date de fin</div>
                     <!-- div vides pour aligner les libellés aux colonnes du tableau -->
+                    <div class='flex-icon'></div>
                     <div class='flex-icon'></div>
                     <div class='flex-icon'></div>
                 </li><br/>
@@ -39,19 +42,65 @@
         })
         .then((data) => {
             let tasks = data;
+            let idRow = 0;
 
             tasks.map(function(aTask) {
                 console.log(aTask);
-                list.innerHTML += "<li class='inline-flex table-row center'><div class='flex-child'>" + aTask.taskName + "</div><div class='flex-child'>" + aTask.description + "</div><div class='flex-icon'><a href='/taskModify/" + aTask._id + "'><img src='/img/write.svg'/></a></div><div class='flex-icon'><img src='/img/trash.svg' onclick='deleteGroup(" + '"' + aTask._id + '"' + ")'/></div></li><br/>";
+                list.innerHTML += "<li class='inline-flex table-row center'><div class='flex-child'>" 
+                    + aTask.taskName + "</div><div class='flex-child'>" + aTask.description 
+                    + "</div><div class='flex-child' id='timer" + idRow + "'>" + aTask.debutDate 
+                    + "</div><div class='flex-child' id='endDate" + idRow + "'>" + aTask.endDate 
+                    + "</div><div class='flex-icon'><a href='#' onclick='endTask(" + '"' + aTask._id + '"' 
+                    + ")'><img src='/img/close.svg'/></a></div><div class='flex-icon'><a href='/taskModify/" 
+                    + aTask._id + "'><img src='/img/write.svg'/></a></div><div class='flex-icon'><img src='/img/trash.svg' onclick='deleteGroup(" 
+                    + '"' + aTask._id + '"' + ")'/></div></li><br/>";
+                idRow += 1;
             });
+
+            for(let i = 0; i < idRow; i++) {
+                let timerDiv = document.getElementById('timer'+i);
+                let dateDebut = document.getElementById('timer'+i).innerHTML;
+                let dateFin = document.getElementById('endDate'+i).innerHTML;
+                if (dateFin !== "undefined") {
+                    let timer = (Date.parse(dateFin) - Date.parse(dateDebut)) / 1000;
+                    let hours = Math.floor(timer / 3600);
+                    let minutes = Math.floor(timer % 3600 / 60);
+                    let secondes = (timer % 60).toFixed(0);
+                    timerDiv.innerHTML = hours + "h" + minutes + "m" + secondes + "s";
+                }
+                else {
+                    let dateNow = new Date();
+                    let timer = (Date.parse(dateNow) - Date.parse(dateDebut)) / 1000;
+                    let hours = Math.floor(timer / 3600);
+                    let minutes = Math.floor(timer % 3600 / 60);
+                    let secondes = (timer % 60).toFixed(0);
+                    timerDiv.innerHTML = hours + "h" + minutes + "m" + secondes + "s";
+                }
+            }
         })
-        .catch(function(error) {
+        .catch(function(error) {var now = new Date().getTime();
             console.log(error);
         });
 
         async function deleteGroup(idTask) {
             const response = await fetch('http://localhost:3000/task/' + idTask, {
                 method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                }
+            });
+            const myJson = await response.json();
+            if (response.status == 200) {
+                window.location.href = "/taskList/" + idGroup;
+            }
+            else {
+                console.log(myJson);
+            }
+        }
+
+        async function endTask(idTask) {
+            const response = await fetch('http://localhost:3000/endTask/' + idTask, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
                 }

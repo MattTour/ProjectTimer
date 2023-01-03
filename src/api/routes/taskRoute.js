@@ -9,6 +9,9 @@ server.route("/task/:idTask")
 .put(taskController.updateATask)
 .delete(taskController.deleteATask);
 
+server.route("/endTask/:idTask")
+.put(taskController.endATask)
+
 server.route("/tasks/:idProject")
 .get(taskController.findTasksByProjectId);
 }
