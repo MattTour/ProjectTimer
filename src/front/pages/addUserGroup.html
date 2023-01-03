@@ -6,31 +6,24 @@
     </head>
     <body>
         <div id="container">
-            <div class="login-title center mb30">Créer un projet</div>
+            <div class="login-title center mb30">Ajouter un user au groupe</div>
             <div class="form-login">
                 <div class="mb30">
-                    <div class="input-label">Nom du projet :</div>
-                    <input class="input" type="text" placeholder="Entrer le nom du projet" name="projectName" id="projectName" required>
+                    <div class="input-label">Adresse mail du user :</div>
+                    <input class="input" type="text" placeholder="Entrer le mail du user" name="userMail" id="userMail" required>
                 </div>
 
-                <div class="mb30">
-                    <div class="input-label">Description du projet :</div>
-                    <textarea class="input" type="text" placeholder="Entrer la description du projet" name="projectDescription" id="projectDescription" required></textarea>
-                </div>
-
-                <button class="button" onclick="createProject()">Valider</button>
+                <button class="button" onclick="addUserGroup()">Valider</button>
             </div>
         </div>
     </body>
     <script>
         const idGroup = window.location.pathname.split("/").pop();
-        async function createProject() {
-            projectName = document.getElementById("projectName").value;
-            projectDescription = document.getElementById("projectDescription").value;
+        async function addUserGroup() {
+            userMail = document.getElementById("userMail").value;
             myBody = {
-                "projectName": projectName,
-                "description": projectDescription,
-                "group_id": idGroup
+                "email": userMail,
+                "groupId": idGroup
             };
             var formBody = [];
             for (var property in myBody) {
@@ -39,7 +32,7 @@
                 formBody.push(encodedKey + "=" + encodedValue);
             }
             formBody = formBody.join("&");
-            const response = await fetch('http://localhost:3000/project', {
+            const response = await fetch('http://localhost:3000/addUser', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
@@ -47,8 +40,8 @@
                 body: formBody
             });
             const myJson = await response.json();
-            if (response.status == 201) {
-                window.location.href = "/projectList/" + idGroup;
+            if (response.status == 200) {
+                window.location.href = "/";
             }
             else {
                 console.log(myJson);

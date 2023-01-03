@@ -15,7 +15,6 @@ exports.listAllProjects = (req, res) => {
 }
 
 exports.createAProject = (req, res) => {
-    //TODO FAIRE VERIF DU PROJECTNAME
     let newProject = new Project(req.body);
     newProject.save((error, project) => {
         if (error) {
