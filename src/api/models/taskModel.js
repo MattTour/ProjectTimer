@@ -13,6 +13,15 @@ let taskModel = new Schema ({
     description: {
         type: String, 
         required: false
+    },
+    debutDate: {
+        type: Date,
+        required: false,
+        default: Date.now
+    },
+    endDate: {
+        type: Date,
+        required: false
     }
 })
 

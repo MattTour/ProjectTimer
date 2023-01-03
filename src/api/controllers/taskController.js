@@ -64,7 +64,25 @@ exports.updateATask = (req, res) => {
         }
         else {
             res.status(200);
-            res.json({ message: "Le project à bien été modifié.", idProject: task.idProject});
+            res.json({ message: "La tâche a bien été modifiée.", idProject: task.idProject});
+        }
+
+    })
+}
+
+exports.endATask = (req, res) => {
+    let endDate = Date.now();
+    Task.findByIdAndUpdate(req.params.idTask, { 
+        endDate: endDate
+        }, (error, task) => {
+        if (error) {
+            res.status(401);
+            console.log(error);
+            res.json({ message: "Reqûete invalide." });
+        }
+        else {
+            res.status(200);
+            res.json({ message: "La tâche est bien cloturée."});
         }
 
     })
