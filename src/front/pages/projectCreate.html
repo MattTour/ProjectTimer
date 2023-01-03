@@ -18,11 +18,6 @@
                     <textarea class="input" type="text" placeholder="Entrer la description du projet" name="projectDescription" id="projectDescription" required></textarea>
                 </div>
 
-                <div class="mb30">
-                    <div class="input-label">Id du groupe :</div>
-                    <input class="input" type="text" placeholder="Entrer l'id du groupe lié à ce projet" name="projectIdGroupe" id="projectIdGroupe" required>
-                </div>
-
                 <button class="button" onclick="createProject()">Valider</button>
             </div>
         </div>
@@ -32,11 +27,10 @@
         async function createProject() {
             projectName = document.getElementById("projectName").value;
             projectDescription = document.getElementById("projectDescription").value;
-            projectIdGroupe = document.getElementById("projectIdGroupe").value;
             myBody = {
                 "projectName": projectName,
                 "description": projectDescription,
-                "group_id": projectIdGroupe
+                "group_id": idGroup
             };
             var formBody = [];
             for (var property in myBody) {
