@@ -77,4 +77,8 @@ server.get('/taskModify/:idTask', function(req, res){
     res.render(__dirname + '/front/pages/taskUpdate.html');
 });
 
+server.get('/addUser/:idUser', function(req, res){
+    res.render(__dirname + '/front/pages/addUserGroup.html');
+});
+
 server.listen(port, hostname);
