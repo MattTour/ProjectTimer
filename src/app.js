@@ -2,6 +2,23 @@ const express = require('express');
 var cors = require("cors");
 var path = require('path');
 
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+
+const swaggerOptions={
+    definition:{
+        openapi:'3.0.0',
+        info:{
+            title:'API from ProjectTimer',
+            version:'1.0.0',
+            servers:["http://localhost:3000"]
+        }
+    },
+    apis:["./api/routes/*.js"]
+}
+
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+
 const hostname = "0.0.0.0";
 const port = 3000;
 
@@ -19,6 +36,9 @@ mongoose.connect("mongodb://mongo/apinode");
 server.use(express.urlencoded());
 server.use(express.json());
 
+server.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+
 const groupRoute = require("./api/routes/groupRoute");
 groupRoute(server);
 
@@ -29,6 +49,7 @@ const taskRoute = require("./api/routes/taskRoute");
 taskRoute(server);
 
 const userRoute = require("./api/routes/userRoute");
+const swaggerJSDoc = require('swagger-jsdoc');
 userRoute(server);
 
 server.use(express.static(path.join(__dirname, '/front/public')));
