@@ -18,25 +18,19 @@
                     <textarea class="input" type="text" placeholder="Entrer la description de la tâche" name="taskDescription" id="taskDescription" required></textarea>
                 </div>
 
-                <div class="mb30">
-                    <div class="input-label">Id de la tâche :</div>
-                    <input class="input" type="text" placeholder="Entrer l'id du projet lié à cette tâche" name="taskIdGroupe" id="taskIdProject" required>
-                </div>
-
                 <button class="button" onclick="createTask()">Valider</button>
             </div>
         </div>
     </body>
     <script>
-        const idGroup = window.location.pathname.split("/").pop();
+        const idProject = window.location.pathname.split("/").pop();
         async function createTask() {
             taskName = document.getElementById("taskName").value;
             taskDescription = document.getElementById("taskDescription").value;
-            taskIdProject = document.getElementById("taskIdProject").value;
             myBody = {
                 "taskName": taskName,
                 "description": taskDescription,
-                "idProject": taskIdProject
+                "idProject": idProject
             };
             var formBody = [];
             for (var property in myBody) {
@@ -54,7 +48,7 @@
             });
             const myJson = await response.json();
             if (response.status == 201) {
-                window.location.href = "/taskList/" + idGroup;
+                window.location.href = "/taskList/" + idProject;
             }
             else {
                 console.log(myJson);
