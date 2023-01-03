@@ -6,23 +6,24 @@
     </head>
     <body>
         <div id="container">
-            <div class="login-title center mb30">Créer un groupe</div>
+            <div class="login-title center mb30">Ajouter un user au groupe</div>
             <div class="form-login">
                 <div class="mb30">
-                    <div class="input-label">Nom du groupe :</div>
-                    <input class="input" type="text" placeholder="Entrer le nom du groupe" name="groupName" id="groupName" required>
+                    <div class="input-label">Adresse mail du user :</div>
+                    <input class="input" type="text" placeholder="Entrer le mail du user" name="userMail" id="userMail" required>
                 </div>
 
-                <button class="button" onclick="createGroup()">Valider</button>
+                <button class="button" onclick="addUserGroup()">Valider</button>
             </div>
         </div>
     </body>
     <script>
-        const idUser = localStorage.getItem('userId');
-        async function createGroup() {
-            groupName = document.getElementById("groupName").value;
-                myBody = {
-                "groupName": groupName
+        const idGroup = window.location.pathname.split("/").pop();
+        async function addUserGroup() {
+            userMail = document.getElementById("userMail").value;
+            myBody = {
+                "email": userMail,
+                "groupId": idGroup
             };
             var formBody = [];
             for (var property in myBody) {
@@ -31,7 +32,7 @@
                 formBody.push(encodedKey + "=" + encodedValue);
             }
             formBody = formBody.join("&");
-            const response = await fetch('http://localhost:3000/group/' + idUser.slice(1, -1), {
+            const response = await fetch('http://localhost:3000/addUser', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
